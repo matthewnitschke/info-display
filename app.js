@@ -1,73 +1,69 @@
 var blessed = require('blessed');
 var moment = require('moment');
+var chalk = require('chalk');
+var isPromise = require('is-promise')
 
-// Create a screen object.
 var screen = blessed.screen();
 
-var homework = `Stats
-ESof
-Computer Archatecture
-Networks`
+var homework = require('./blocks/homework.js')
+var dateTime = require('./blocks/clock.js')
+var hackernews = require('./blocks/hackernews.js')
 
-// Create a box perfectly centered horizontally and vertically.
-var dateTime = blessed.box({
+function placeBlock(block, options){
+  Object.keys(options).forEach((key) => {
+    block.element[key] = options[key]
+  })
+
+  return block.element
+}
+
+function renderBlock(block){
+  resp = block.render()
+  if (isPromise(resp)){
+    resp.then((content) => {
+      block.element.content = content
+      screen.render()
+    })
+  } else {
+    block.element.content = resp
+  }
+}
+
+screen.append(placeBlock(dateTime, {
   top: '0%',
   left: '0%',
-  width: '7%',
-  height: '9%',
-  content: `${moment().format("H:mm a")}
-${moment().format("MM/DD/YYYY")}`,
-  align: 'center',
-  valign: 'middle',
-  tags: true,
-  border: {
-    type: 'line'
-  },
-  style: {
-    fg: 'white',
-    border: {
-      fg: '#ffffff'
-    },
-    hover: {
-      bg: 'green'
-    }
-  }
-});
+  width: '25%',
+  height: '10%'
+}));
 
-// Dates one day away are in red, 3 days away are yellow, more than 3 are white 
-var homework = blessed.box({
-  label: 'Homework',
+screen.append(placeBlock(homework, {
   top: '10%',
   left: '0%',
-  width: '10%',
-  height: '9%',
-  content: homework,
-  align: 'left',
-  valign: 'middle',
-  padding: '2',
-  border: {
-    type: 'line'
-  },
-  style: {
-    fg: 'white',
-    border: {
-      fg: '#ffffff'
-    },
-    hover: {
-      bg: 'green'
-    }
-  }
-})
+  width: '25%',
+  height: '90%'
+}));
 
-// Append our box to the screen.
-screen.append(dateTime);
-screen.append(homework);
+screen.append(placeBlock(hackernews, {
+  top: '0%',
+  left: '26%',
+  width: '30%',
+  height: '30%'
+}))
 
-// Quit on Escape, q, or Control-C.
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
   return process.exit(0);
 });
 
+var blocks = [dateTime, homework, hackernews]
 
-// Render the screen.
+function renderBlocks(){
+  blocks.forEach((block) => {
+    renderBlock(block);
+  })
+  screen.render()
+}
+
+renderBlocks()
+setInterval(renderBlocks, 50000)
+
 screen.render();

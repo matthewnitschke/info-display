@@ -5,6 +5,9 @@
   "license": "MIT",
   "dependencies": {
     "blessed": "^0.1.81",
-    "moment": "^2.19.0"
+    "chalk": "^2.1.0",
+    "is-promise": "^2.1.0",
+    "moment": "^2.19.0",
+    "node-hacker-news": "^0.0.2"
   }
 }
