@@ -1,5 +1,6 @@
 var blessed = require('blessed');
 var hn = require("node-hacker-news");
+var opn = require('opn')
 
 function getHNArticles(){
   return new Promise((resolve, reject) => {
@@ -14,19 +15,11 @@ function getHNArticles(){
       })
 
       Promise.all(storyPromises).then((storiesText) => {
-        var storyLines = storiesText.map((s) => {
+
+        resolve(storiesText.map((s) => {
           return s.title
-        }).join('\n\n');
-
-        resolve(storyLines)
+        }).join('\n\n'))
       })
-
-
-        // if (err){
-        //   resolve(err)
-        // } else {
-        //   resolve(stories);
-        // }
     });
   });
 }
@@ -49,9 +42,16 @@ module.exports = {
       fg: 'white',
       border: {
         fg: '#ffffff'
+      },
+      hover: {
+        bg: 'grey'
       }
     }
   }),
 
   render: getHNArticles
 }
+
+module.exports.element.on('click', () => {
+  opn('https://news.ycombinator.com/');
+})

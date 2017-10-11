@@ -8,10 +8,11 @@ var screen = blessed.screen();
 var homework = require('./blocks/homework.js')
 var dateTime = require('./blocks/clock.js')
 var hackernews = require('./blocks/hackernews.js')
+var email = require('./blocks/email.js')
 
 function placeBlock(block, options){
   Object.keys(options).forEach((key) => {
-    block.element[key] = options[key]
+    block.element[key] = options[key];
   })
 
   return block.element
@@ -21,11 +22,15 @@ function renderBlock(block){
   resp = block.render()
   if (isPromise(resp)){
     resp.then((content) => {
-      block.element.content = content
+      if (content){
+        block.element.content = content
+      }
       screen.render()
     })
   } else {
-    block.element.content = resp
+    if (resp){
+      block.element.content = resp
+    }
   }
 }
 
@@ -48,13 +53,20 @@ screen.append(placeBlock(hackernews, {
   left: '26%',
   width: '30%',
   height: '30%'
-}))
+}));
+
+screen.append(placeBlock(email, {
+  top: '30%',
+  left: '26%',
+  width: '13%',
+  height: '9%'
+}));
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
   return process.exit(0);
 });
 
-var blocks = [dateTime, homework, hackernews]
+var blocks = [dateTime, homework, hackernews, email]
 
 function renderBlocks(){
   blocks.forEach((block) => {
@@ -64,6 +76,6 @@ function renderBlocks(){
 }
 
 renderBlocks()
-setInterval(renderBlocks, 50000)
+setInterval(renderBlocks, 1000)
 
 screen.render();
