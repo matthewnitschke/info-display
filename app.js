@@ -4,12 +4,12 @@ var chalk = require('chalk');
 var isPromise = require('is-promise')
 
 var screen = blessed.screen();
-screen._listenedMouse = true;
 
 var homework = require('./blocks/homework.js')
 var dateTime = require('./blocks/clock.js')
 var hackernews = require('./blocks/hackernews.js')
 var email = require('./blocks/email.js')
+var speedtest = require('./blocks/speedtest.js')
 
 function placeBlock(block, options){
   Object.keys(options).forEach((key) => {
@@ -59,11 +59,18 @@ screen.append(placeBlock(email, {
   height: 3
 }));
 
+screen.append(placeBlock(speedtest, {
+  top: 17,
+  left: 85,
+  width: 36,
+  height: 4
+}))
+
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
   return process.exit(0);
 });
 
-var blocks = [dateTime, homework, hackernews, email]
+var blocks = [dateTime, homework, hackernews, email, speedtest]
 
 function renderBlocks(){
   blocks.forEach((block) => {

@@ -11,25 +11,27 @@ module.exports = {
 	element: blessed.box({
 		label: 'Email',
 		content: renderEmail(),
-	    tags: true,
-	    padding: {
-	      top: 0,
-	      left: 1,
-	      right: 1,
-	      bottom: 0
-	    },
-	    border: {
-	      type: 'line'
-	    },
-	    style: {
-	      fg: 'white',
-	      border: {
-	        fg: '#ffffff'
-	      },
-	       hover: {
-		      bg: 'grey'
-		    }
-	    }
+		tags: true,
+		padding: {
+			top: 0,
+			left: 1,
+			right: 1,
+			bottom: 0
+		},
+		border: {
+			type: 'line'
+		},
+		align: 'center',
+    valign: 'middle',
+		style: {
+			fg: 'white',
+			border: {
+				fg: '#ffffff'
+			},
+			hover: {
+				bg: 'grey'
+			}
+		}
 	}),
 
 	render: renderEmail
