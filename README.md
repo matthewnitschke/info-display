@@ -6,3 +6,4 @@ info display is a blessedjs based terminal dashboard for information that I find
 * homework - todo list with deadlines, synced with gist
 * hackernews - list of the top 5 hn articles
 * email - unread email messages counter, only tested with gmail
+* speedtest - Speedtest.net internet download and upload speed
