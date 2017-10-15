@@ -3,5 +3,9 @@
     "username": "<username>",
     "password": "<password (base64)>",
     "host": "<imap-host>"
+  },
+  "homework": {
+    "gistID": "<gistID>",
+    "gistToken": "<personal access token>"
   }
 }

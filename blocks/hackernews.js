@@ -1,26 +1,13 @@
-var blessed = require('blessed');
-var hn = require("node-hacker-news");
+var blessed = require('blessed')
+var api = require('../apis/hackernews.js')
 var opn = require('opn')
 
 function getHNArticles(){
-  return new Promise((resolve, reject) => {
-    hn.topstories(function(err, stories){
 
-      storyPromises = stories.splice(0, 5).map((storyId) => {
-        return new Promise((storyResolve, reject) => {
-          hn.item(storyId, function(err, item){
-            storyResolve(item);
-          })
-        });
-      })
-
-      Promise.all(storyPromises).then((storiesText) => {
-
-        resolve(storiesText.map((s) => {
-          return s.title
-        }).join('\n\n'))
-      })
-    });
+  return api.getLatestNews().then((news) => {
+    return news.map((story) => {
+      return story.title
+    }).join('\n\n');
   });
 }
 

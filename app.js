@@ -4,6 +4,7 @@ var chalk = require('chalk');
 var isPromise = require('is-promise')
 
 var screen = blessed.screen();
+screen._listenedMouse = true;
 
 var homework = require('./blocks/homework.js')
 var dateTime = require('./blocks/clock.js')
@@ -22,44 +23,40 @@ function renderBlock(block){
   resp = block.render()
   if (isPromise(resp)){
     resp.then((content) => {
-      if (content){
-        block.element.content = content
-      }
+      block.element.content = !!content ? content : ''
       screen.render()
     })
   } else {
-    if (resp){
-      block.element.content = resp
-    }
+    block.element.content = !!resp ? resp : ''
   }
 }
 
 screen.append(placeBlock(dateTime, {
-  top: '0%',
-  left: '0%',
-  width: '25%',
-  height: '10%'
+  top: 0,
+  left: 0,
+  width: 60,
+  height: 4
 }));
 
 screen.append(placeBlock(homework, {
-  top: '10%',
-  left: '0%',
-  width: '25%',
-  height: '90%'
+  top: 4,
+  left: 0,
+  width: 60,
+  height: '95%'
 }));
 
 screen.append(placeBlock(hackernews, {
-  top: '0%',
-  left: '26%',
-  width: '30%',
-  height: '30%'
+  top: 0,
+  left: 61,
+  width: 60,
+  height: 17
 }));
 
 screen.append(placeBlock(email, {
-  top: '30%',
-  left: '26%',
-  width: '13%',
-  height: '9%'
+  top: 17,
+  left: 61,
+  width: 24,
+  height: 3
 }));
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {

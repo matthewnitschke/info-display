@@ -1,9 +1,11 @@
 var blessed = require('blessed')
-var moment = require('moment')
+var api = require("../apis/clock.js")
 
 function generateDateTime(){
-  return `${moment().format("h:mm a")}
-${moment().format("MM/DD/YYYY")}`;
+  var time = api.getTime();
+
+  return `${time.time}
+${time.date}`;
 }
 
 module.exports = {

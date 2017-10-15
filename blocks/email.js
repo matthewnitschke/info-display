@@ -1,26 +1,9 @@
-var blessed = require('blessed');
-var MailListener = require('mail-listener2');
-var opn = require('opn');
-
-var config = require('../config.json');
-
-var mailListener = new MailListener({
-	username: config.email.username,
-	password: Buffer.from(config.email.password, "base64").toString(),
-	host: config.email.host,
-	port: 993,
-	tls: true,
-	fetchUnreadOnStart: true
-});
-
-unreadMessages = [];
-
-mailListener.on("mail", (email) => {
-	unreadMessages.push(email);
-})
+var blessed = require('blessed')
+var opn = require('opn')
+var api = require('../apis/email.js')
 
 function renderEmail() {
-	var msg = unreadMessages.length;
+	var msg = api.unreadMessages.length;
 	return `Unread Messages: {green-fg}${msg}{/green-fg}`
 }
 
@@ -55,5 +38,3 @@ module.exports = {
 module.exports.element.on('click', () => {
 	opn('http://inbox.google.com');
 })
-
-mailListener.start();
