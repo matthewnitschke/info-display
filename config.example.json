@@ -1,11 +1,15 @@
 {
   "email": {
-    "username": "<username>",
+    "username": "<email address>",
     "password": "<password (base64)>",
     "host": "<imap-host>"
   },
   "homework": {
     "gistID": "<gistID>",
     "gistToken": "<personal access token>"
+  },
+  "github":{
+    "username": "<github username>",
+    "password": "<password (base64)>"
   }
 }
