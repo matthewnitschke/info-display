@@ -2,6 +2,28 @@ var blessed = require('blessed')
 var moment = require('moment')
 var api = require('../apis/homework.js')
 
+var block = blessed.box({
+  label: 'Homework',
+  content: '',
+  align: 'left',
+  tags: true,
+  padding: {
+    top: 1,
+    left: 2,
+    right: 2,
+    bottom: 1
+  },
+  border: {
+    type: 'line'
+  },
+  style: {
+    fg: 'white',
+    border: {
+      fg: '#ffffff'
+    }
+  }
+})
+
 function generateHomeworkText() {
   return api.getHomework().then((homework) => {
     var ret = ""
@@ -32,29 +54,19 @@ function generateHomeworkText() {
 
 }
 
-module.exports = {
-  element: blessed.box({
-    label: 'Homework',
-    content: '',
-    align: 'left',
-    tags: true,
-    padding: {
-      top: 1,
-      left: 2,
-      right: 2,
-      bottom: 1
-    },
-    border: {
-      type: 'line'
-    },
-    style: {
-      fg: 'white',
-      border: {
-        fg: '#ffffff'
-      }
-    }
-  }),
-
-  render: generateHomeworkText
-
+function renderBlock(screen){
+  generateHomeworkText().then(data => {
+    block.content = data;
+    screen.render();
+  })
 }
+
+block.start = function(screen){
+  renderBlock(screen); // initial render
+
+  setInterval(() => {
+    renderBlock(screen);
+  }, 60000)
+}
+
+module.exports = block;

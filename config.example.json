@@ -4,12 +4,16 @@
     "password": "<password (base64)>",
     "host": "<imap-host>"
   },
-  "homework": {
+  "gist": {
     "gistID": "<gistID>",
     "gistToken": "<personal access token>"
   },
   "github":{
     "username": "<github username>",
     "password": "<password (base64)>"
+  },
+  "gitlab": {
+    "schoolRepoUrl": "",
+    "token": ""
   }
 }

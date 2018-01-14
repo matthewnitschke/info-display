@@ -1,31 +1,42 @@
 var blessed = require('blessed')
-var api = require("../apis/clock.js")
+var moment = require('moment')
+
+
+var block = blessed.box({
+  content: generateDateTime(),
+  align: 'center',
+  valign: 'middle',
+  tags: true,
+  border: {
+    type: 'line'
+  },
+  style: {
+    fg: 'white',
+    border: {
+      fg: '#ffffff'
+    }
+  }
+})
 
 function generateDateTime(){
-  var time = api.getTime();
+  var time = moment().format("h:mm:ss a")
+  var date = moment().format("M/DD/YYYY")
 
-  return `${time.time}
-${time.date}`;
+  return `${time}
+${date}`;
 }
 
-module.exports = {
-  element: blessed.box({
-    content: generateDateTime(),
-    align: 'center',
-    valign: 'middle',
-    tags: true,
-    border: {
-      type: 'line'
-    },
-    style: {
-      fg: 'white',
-      border: {
-        fg: '#ffffff'
-      }
-    }
-  }),
-
-  render: () => { return generateDateTime() }
-
-
+function renderBlock(){
+  block.content = generateDateTime();
 }
+
+
+block.start = function(screen) {
+  setInterval(() => {
+    renderBlock();
+    screen.render();
+  }, 1000);
+}
+
+
+module.exports = block;

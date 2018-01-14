@@ -1,4 +1,4 @@
-var config = require("../config.json").homework
+var config = require("../config.json").gist
 var Gist = require("gist.js")
 
 var gist = Gist(config.gistID)

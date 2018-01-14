@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+address@>=0.0.1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/address/-/address-1.0.3.tgz#b5f50631f8d6cec8bd20c963963afb55e06cbce9"
+
 addressparser@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/addressparser/-/addressparser-1.0.1.tgz#47afbe1a2a9262191db6838e4fd1d39b40821746"
@@ -28,6 +32,10 @@ ansi-styles@^3.1.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.0.tgz#c159b8d5be0f9e5a6f346dab94f16ce022161b88"
   dependencies:
     color-convert "^1.9.0"
+
+any-promise@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/any-promise/-/any-promise-1.3.0.tgz#abc6afeedcea52e809cdc0376aed3ce39635d17f"
 
 asn1@~0.2.3:
   version "0.2.3"
@@ -161,7 +169,11 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-debug@2.2.0:
+debug@0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-0.8.1.tgz#20ff4d26f5e422cb68a1bacbbb61039ad8c1c130"
+
+debug@2.2.0, debug@~2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.2.0.tgz#f87057e995b1a1f6ae6a4960664137bc56f039da"
   dependencies:
@@ -171,11 +183,21 @@ debug@~0.7.2:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-0.7.4.tgz#06e1ea8082c2cb14e39806e22e2f6f757f92af39"
 
+debug@~1.0.4:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-1.0.5.tgz#f7241217430f99dec4c2b473eab92228e874c2ac"
+  dependencies:
+    ms "2.0.0"
+
 deep-eql@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-0.1.3.tgz#ef558acab8de25206cd713906d74e56930eb69f2"
   dependencies:
     type-detect "0.1.1"
+
+default-user-agent@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/default-user-agent/-/default-user-agent-0.0.1.tgz#afb124c58ada0635f4ef6d0c15dd906555098ab1"
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -184,6 +206,12 @@ delayed-stream@~1.0.0:
 diff@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-1.4.0.tgz#7f28d2eb9ee7b15a97efd89ce63dcfdaa3ccbabf"
+
+digest-header@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/digest-header/-/digest-header-0.0.1.tgz#11ccf6deec5766ac379744d901c12cba49514be6"
+  dependencies:
+    utility "0.1.11"
 
 draftlog@^1.0.12:
   version "1.0.12"
@@ -198,6 +226,10 @@ ecc-jsbn@~0.1.1:
 emitter-component@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/emitter-component/-/emitter-component-1.0.0.tgz#f04dd18fc3dc3e9a74cbc0f310b088666e4c016f"
+
+enable@1:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/enable/-/enable-1.3.2.tgz#9eba6837d16d0982b59f87d889bf754443d52931"
 
 encoding@>=0.1.4, encoding@~0.1.12:
   version "0.1.12"
@@ -478,6 +510,19 @@ ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
 
+ms@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
+
+node-gitlab@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/node-gitlab/-/node-gitlab-1.6.0.tgz#9c14db253b935b0c2e2ff49dc4c83fa595a2ced0"
+  dependencies:
+    any-promise "^1.3.0"
+    debug "~2.2.0"
+    restful-client "~1.0.0"
+    thunkify-wrap "~1.0.4"
+
 node-hacker-news@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/node-hacker-news/-/node-hacker-news-0.0.2.tgz#8c85fe920b444ebbaee94c5bce229ae6e75cf816"
@@ -547,6 +592,13 @@ request@^2.72.0:
     tough-cookie "~2.3.3"
     tunnel-agent "^0.6.0"
     uuid "^3.1.0"
+
+restful-client@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/restful-client/-/restful-client-1.0.0.tgz#2aaee0e968b0f0d8de452fa6d4e0cb0248861edf"
+  dependencies:
+    debug "~1.0.4"
+    urllib "~0.5.17"
 
 safe-buffer@^5.0.1, safe-buffer@^5.1.1:
   version "5.1.1"
@@ -632,6 +684,12 @@ supports-color@^4.0.0:
   dependencies:
     has-flag "^2.0.0"
 
+thunkify-wrap@~1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/thunkify-wrap/-/thunkify-wrap-1.0.4.tgz#b52be548ddfefda20e00b58c6096762b43dd6880"
+  dependencies:
+    enable "1"
+
 to-iso-string@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/to-iso-string/-/to-iso-string-0.0.2.tgz#4dc19e664dfccbe25bd8db508b00c6da158255d1"
@@ -660,11 +718,25 @@ type-detect@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-1.0.0.tgz#762217cc06db258ec48908a1298e8b95121e8ea2"
 
+urllib@~0.5.17:
+  version "0.5.18"
+  resolved "https://registry.yarnpkg.com/urllib/-/urllib-0.5.18.tgz#87041af0834f1adbb472d0029ad0acd80b0a5fa2"
+  dependencies:
+    debug "0.8.1"
+    default-user-agent "0.0.1"
+    digest-header "0.0.1"
+
 utf7@>=1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/utf7/-/utf7-1.0.2.tgz#955f490aae653ba220b9456a0a8776c199360991"
   dependencies:
     semver "~5.3.0"
+
+utility@0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/utility/-/utility-0.1.11.tgz#fde60cf9b4e4751947a0cf5d104ce29367226715"
+  dependencies:
+    address ">=0.0.1"
 
 uue@~1.0.0:
   version "1.0.0"
