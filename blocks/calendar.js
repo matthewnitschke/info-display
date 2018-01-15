@@ -8,9 +8,6 @@ var config = {
   currentDayFirst: false
 };
 
-var subjects = [];
-var summaries = {};
-
 function CalendarBox(date) {
   this.date = date;
 
@@ -49,14 +46,14 @@ function CalendarBox(date) {
     }
   });
 
-  function renderHomeworkData(date) {
+  function renderHomeworkData(subjects) {
     var retText = "";
 
     subjects.forEach(subject => {
       var subjectAssignements = "";
       subject.assignments.forEach(assignment => {
         var assignmentDate = moment(assignment.due, "MM/DD/YYYY");
-        if (date.isSame(assignmentDate, "day")) {
+        if (this.date.isSame(assignmentDate, "day")) {
           subjectAssignements += "\t" + assignment.name + "\n";
         }
       });
@@ -71,10 +68,10 @@ function CalendarBox(date) {
     return retText;
   }
 
-  function renderSummaryData(date){
+  function renderSummaryData(subjects, summaries){
     function hasSummary(subject) {
       if (summaries[subject.subject]) {
-        return summaries[subject.subject].indexOf(date.format("MM/DD/YYYY")) > -1;
+        return summaries[subject.subject].indexOf(this.date.format("MM/DD/YYYY")) > -1;
       }
       return false;
     }
@@ -85,7 +82,7 @@ function CalendarBox(date) {
       subject.meetingDays.split(",").forEach(day => {
         var meetingDay = moment(day, "ddd");
   
-        if (meetingDay.format("ddd") === date.format("ddd")) {
+        if (meetingDay.format("ddd") === this.date.format("ddd")) {
           var prefix = hasSummary(subject)
             ? `{green-fg}\u2714{/green-fg}`
             : `{red-fg}\u2718{/red-fg}`;
@@ -97,22 +94,10 @@ function CalendarBox(date) {
     return retSubjects;
   }
 
-  this.update = function() {
-    homeworkBox.content = renderHomeworkData(this.date);
-    summaryBox.content = renderSummaryData(this.date);
+  this.update = function(subjects, summaries) {
+    homeworkBox.content = renderHomeworkData(subjects);
+    summaryBox.content = renderSummaryData(subjects, summaries);
   };
-}
-
-function updateHomeworkData() {
-  return homeworkApi.getHomework().then(subjectsData => {
-    subjects = subjectsData;
-  });
-}
-
-function updateSummaryData(){
-  return summariesApi.getSummaries(subjects).then(summariesData => {
-    summaries = summariesData
-  })
 }
 
 var calendar = blessed.layout({
@@ -132,15 +117,15 @@ for (var i = 0; i < config.daysVisible; i++) {
 }
 
 calendar.start = function(screen) {
-  var interval = () => {
-    updateHomeworkData()
-    .then(updateSummaryData)
-    .then(() => {
-      days.forEach(day => {
-        day.update();
-      })
-      screen.render();
-    });
+  var interval = async () => {
+    let subjects = await homeworkApi.getHomework()
+    let summaries = await summariesApi.getSummaries(subjects)
+
+    days.forEach(day => {
+      day.update(subjects, summaries)
+    })
+
+    screen.render()
   }
 
   setInterval(interval, 60000);

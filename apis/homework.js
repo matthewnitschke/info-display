@@ -8,9 +8,15 @@ module.exports = {
     getHomework: () => {
         return new Promise((resolve, reject) => {
             gist.get((err, json) => {
-                var filename = Object.keys(json.files)[0];
-                var content = JSON.parse(json.files[filename].content);
-                resolve(content);
+                if (err) { 
+                    reject(err) 
+                } else {
+
+                    var filename = Object.keys(json.files)[0];
+                    var content = JSON.parse(json.files[filename].content);
+                    resolve(content);
+                }
+
             })
         })
     },
