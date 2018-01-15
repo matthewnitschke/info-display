@@ -4,7 +4,7 @@ var homeworkApi = require("../apis/homework.js");
 var summariesApi = require("../apis/classSummary.js");
 
 var config = {
-  daysVisible: 14,
+  daysVisible: 21,
   currentDayFirst: false
 };
 
@@ -17,7 +17,7 @@ function CalendarBox(date) {
   let dayContainer = blessed.box({
     parent: calendar,
     height: "100%",
-    width: 30
+    width: 29
   });
 
   let homeworkBox = blessed.box({

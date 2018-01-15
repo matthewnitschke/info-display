@@ -22,25 +22,25 @@ function placeBlock(block, options){
 
 var blocks = []
 
-blocks.push(placeBlock(dateTime, {
-  top: 0,
-  left: 0,
-  width: 60,
-  height: 4
-}));
+//blocks.push(placeBlock(dateTime, {
+//  top: 0,
+//  left: 0,
+//  width: 50,
+//  height: 4
+//}));
 
-blocks.push(placeBlock(homework, {
-  top: 4,
-  left: 0,
-  width: 60,
-  height: '95%'
-}));
+//blocks.push(placeBlock(homework, {
+//  top: 4,
+//  left: 0,
+//  width: 50,
+//  height: '95%'
+//}));
 
 blocks.push(placeBlock(calendar, {
-  top: 0,
-  left: 60,
+  top: 1,
+  left: 1,
   height: 20,
-  width: '100%-60'
+  width: '100%'
 }))
 
 blocks.forEach(block => {
