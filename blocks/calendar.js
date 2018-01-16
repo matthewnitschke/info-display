@@ -46,15 +46,20 @@ function CalendarBox(date) {
     }
   });
 
-  function renderHomeworkData(subjects) {
+  var renderHomeworkData = (subjects) => {
     var retText = "";
 
     subjects.forEach(subject => {
+      
       var subjectAssignements = "";
       subject.assignments.forEach(assignment => {
         var assignmentDate = moment(assignment.due, "MM/DD/YYYY");
         if (this.date.isSame(assignmentDate, "day")) {
-          subjectAssignements += "\t" + assignment.name + "\n";
+          if (assignment.complete){
+            subjectAssignements += `\t {gray-fg}${assignment.name}{/gray-fg} \n`;
+          } else {
+            subjectAssignements += "\t" + assignment.name + "\n";
+          }
         }
       });
 
@@ -68,8 +73,8 @@ function CalendarBox(date) {
     return retText;
   }
 
-  function renderSummaryData(subjects, summaries){
-    function hasSummary(subject) {
+  var renderSummaryData = (subjects, summaries) => {
+    var hasSummary = (subject) => {
       if (summaries[subject.subject]) {
         return summaries[subject.subject].indexOf(this.date.format("MM/DD/YYYY")) > -1;
       }
