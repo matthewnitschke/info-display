@@ -25,7 +25,9 @@ module.exports = {
           return {
             [subject.subject]: dates
           }
-        }))
+        })).catch(() => {
+          // there was an error (probably a time out). ignore it
+        })
       }
     })
 
