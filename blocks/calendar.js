@@ -50,23 +50,20 @@ function CalendarBox(date) {
     var retText = "";
 
     subjects.forEach(subject => {
-      
       var subjectAssignements = "";
       subject.assignments.forEach(assignment => {
         var assignmentDate = moment(assignment.due, "MM/DD/YYYY");
         if (this.date.isSame(assignmentDate, "day")) {
           if (assignment.complete){
-            subjectAssignements += `\t {gray-fg}${assignment.name}{/gray-fg} \n`;
+            subjectAssignements += `\t{gray-fg}${assignment.name.trim()}{/gray-fg}\n`;
           } else {
-            subjectAssignements += "\t" + assignment.name + "\n";
+            subjectAssignements += `\t• ${assignment.name.trim()}\n`;
           }
         }
       });
 
       if (subjectAssignements != "") {
-        retText += `{${subject.color}-fg}${
-          subject.subject
-        } \n ${subjectAssignements}{/${subject.color}-fg}\n\n`;
+        retText += `{${subject.color}-fg}${subject.subject}\n${subjectAssignements}{/${subject.color}-fg}\n\n`;
       }
     });
 
