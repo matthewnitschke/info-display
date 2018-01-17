@@ -27,6 +27,7 @@ module.exports = {
           }
         }).catch(() => {
           // there was an error (probably a time out). ignore it
+          return [];
         }))
       }
     })
