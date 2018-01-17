@@ -55,9 +55,9 @@ function CalendarBox(date) {
         var assignmentDate = moment(assignment.due, "MM/DD/YYYY");
         if (this.date.isSame(assignmentDate, "day")) {
           if (assignment.complete){
-            subjectAssignements += `  {gray-fg}${assignment.name.trim()}{/gray-fg}\n`;
+            subjectAssignements += ` {gray-fg}${assignment.name.trim()}{/gray-fg}\n`;
           } else {
-            subjectAssignements += `  • ${assignment.name.trim()}\n`;
+            subjectAssignements += ` • ${assignment.name.trim()}\n`;
           }
         }
       });
