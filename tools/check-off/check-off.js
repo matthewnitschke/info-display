@@ -11,34 +11,11 @@ var screen = blessed.screen({
   dockBorders: true
 });
 
-var contentBox = blessed.layout({
-  parent: screen,
-  top: 0,
-  left: 1,
-  tags: true,
-  padding: {
-    top: 1
-  },
-  style: {
-    focus: {
-      border: {
-        fg: "blue"
-      }
-    }
-  },
-  vi: true,
-  scrollable: true,
-  alwaysScroll: true,
-  scrollbar: {
-    ch: " ",
-    inverse: true
-  }
-});
-
+var contentBox;
 var subjectBoxes = [];
 
 function generateAssignments(subjectBox, subject) {
-  var assignments = JSON.parse(JSON.stringify(subject.assignments));
+  var assignments = subject.assignments;
 
   assignments = assignments.sort((a, b) => {
     if (a.complete && !b.complete) {
@@ -57,20 +34,36 @@ function generateAssignments(subjectBox, subject) {
     }
   });
 
-  assignments.push({});
-
   assignments.forEach(assignment => {
     var name = assignment.complete
       ? `{grey-fg}${assignment.name}{/grey-fg}`
       : assignment.name;
 
-    blessed.box({
+    var form = blessed.form({
       parent: subjectBox,
       width: "100%-4",
       height: 1,
-      content: name,
       tags: true
     });
+
+    var checkbox = blessed.checkbox({
+      parent: form,
+      tags: true,
+      checked: !!assignment.complete,
+      mouse: true,
+      text: name
+    })
+
+    checkbox.on('check', () => {
+      assignment.complete = true
+      saveData()
+    })
+
+    checkbox.on('uncheck', () => {
+      assignment.complete = false
+      saveData()
+    })
+    
   });
 }
 
@@ -82,72 +75,85 @@ function getData() {
       var subjects = JSON.parse(json.files[filename].content);
 
       data = subjects;
-
-      subjects.forEach((subject, i) => {
-        var subjectBox = blessed.layout({
-          parent: contentBox,
-          label: `{${subject.color}-fg}${subject.subject}{/${subject.color}-fg}`,
-          width: "100%",
-          height: "25%",
-          tags: true,
-          vi: true,
-          scrollable: true,
-          keys: true,
-          alwaysScroll: true,
-          scrollbar: {
-            ch: " ",
-            inverse: true
-          },
-          padding: {
-            top: 0,
-            left: 1,
-            right: 1,
-            bottom: 0
-          },
-          border: {
-            type: "line"
-          },
-          style: {
-            border: {
-              fg: subject.color
-            }
-          }
-        });
-
-        if (i == 0){
-          subjectBox.focus();
-        }
-
-        generateAssignments(subjectBox, subject);
-      });
-
-      screen.render();
+      draw();
     }
   });
 }
 
-function updateItem(text) {
-  for (var i = 0; i < data.length; i++) {
-    var subject = data[i];
-
-    for (var j = 0; j < subject.assignments.length; j++) {
-      var assignment = subject.assignments[j];
-
-      if (assignment.name == text) {
-        var isComplete = data[i].assignments[j].complete ? false : true;
-        console.log(isComplete);
-        data[i].assignments[j].complete = isComplete;
-        updateGist(data);
-        return;
-      }
-    }
-  }
-}
-
-function updateGist(data) {
+function saveData() {
   gist.file("info-display-homework.json").write(JSON.stringify(data));
 
-  gist.save(getData);
+  gist.save(draw);
+}
+
+function draw(){
+  if (contentBox){
+    screen.remove(contentBox)
+  }
+
+  contentBox = blessed.layout({
+    parent: screen,
+    top: 0,
+    left: 1,
+    tags: true,
+    padding: {
+      top: 1
+    },
+    style: {
+      focus: {
+        border: {
+          fg: "blue"
+        }
+      }
+    },
+    vi: true,
+    scrollable: true,
+    alwaysScroll: true,
+    scrollbar: {
+      ch: " ",
+      inverse: true
+    }
+  });
+
+  data.forEach((subject, i) => {
+    var subjectBox = blessed.layout({
+      parent: contentBox,
+      label: `{${subject.color}-fg}${subject.subject}{/${subject.color}-fg}`,
+      width: "100%",
+      height: "25%-1",
+      tags: true,
+      vi: true,
+      scrollable: true,
+      keys: true,
+      alwaysScroll: true,
+      scrollbar: {
+        ch: " ",
+        inverse: true
+      },
+      padding: {
+        top: 0,
+        left: 1,
+        right: 1,
+        bottom: 0
+      },
+      border: {
+        type: "line"
+      },
+      style: {
+        border: {
+          fg: subject.color
+        }
+      }
+    });
+
+    if (i == 0){
+      subjectBox.focus();
+    }
+
+    generateAssignments(subjectBox, subject);
+  });
+
+  screen.render();
 }
 
 getData();
