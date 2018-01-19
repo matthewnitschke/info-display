@@ -6,7 +6,8 @@
   },
   "gist": {
     "gistID": "<gistID>",
-    "gistToken": "<personal access token>"
+    "gistToken": "<personal access token>",
+    "gistFilename": "<gist file name>"
   },
   "github":{
     "username": "<github username>",

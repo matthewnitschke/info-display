@@ -71,8 +71,7 @@ var data = [];
 function getData() {
   gist.get((err, json) => {
     if (!err) {
-      var filename = Object.keys(json.files)[0];
-      var subjects = JSON.parse(json.files[filename].content);
+      var subjects = JSON.parse(json.files[config.gistFilename].content);
 
       data = subjects;
       draw();
@@ -81,7 +80,7 @@ function getData() {
 }
 
 function saveData() {
-  gist.file("info-display-homework.json").write(JSON.stringify(data));
+  gist.file(config.gistFilename).write(JSON.stringify(data));
 
   gist.save(draw);
 }

@@ -1,4 +1,4 @@
-var req = require('./apis/classSummary.js')
+var req = require('./apis/homework.js')
 
 var subjects = [
     {
@@ -31,6 +31,9 @@ var subjects = [
     }
   ]
 
-req.getSummaries(subjects).then(e => {
-    console.log(e);
-})
+
+setInterval(() => {
+  req.getHomework().then(subjects => {
+    console.log(subjects[0].assignments[0]);
+  })
+}, 1000)

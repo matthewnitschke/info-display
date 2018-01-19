@@ -21,21 +21,6 @@ function placeBlock(block, options){
 }
 
 var blocks = []
-
-//blocks.push(placeBlock(dateTime, {
-//  top: 0,
-//  left: 0,
-//  width: 50,
-//  height: 4
-//}));
-
-//blocks.push(placeBlock(homework, {
-//  top: 4,
-//  left: 0,
-//  width: 50,
-//  height: '95%'
-//}));
-
 blocks.push(placeBlock(calendar, {
   top: 1,
   left: 1,
@@ -45,32 +30,8 @@ blocks.push(placeBlock(calendar, {
 
 blocks.forEach(block => {
   screen.append(block);
-
   block.start(screen);
 })
-
-
-
-// screen.append(placeBlock(hackernews, {
-//   top: 0,
-//   left: 61,
-//   width: 60,
-//   height: 17
-// }));
-
-// screen.append(placeBlock(email, {
-//   top: 17,
-//   left: 61,
-//   width: 24,
-//   height: 3
-// }));
-
-// screen.append(placeBlock(speedtest, {
-//   top: 17,
-//   left: 85,
-//   width: 36,
-//   height: 4
-// }))
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
   return process.exit(0);
