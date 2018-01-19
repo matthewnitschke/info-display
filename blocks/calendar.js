@@ -22,12 +22,7 @@ function CalendarBox(date) {
     tags: true,
     content: "loading...",
     label: date.format("dddd-D"),
-    border: "line",
-    style: {
-      border: {
-        fg: moment().isSame(date, "day") ? "red" : "white"
-      }
-    }
+    border: "line"
   });
 
   let summaryBox = blessed.box({
@@ -38,12 +33,7 @@ function CalendarBox(date) {
     content: 'loading...',
     height: 5,
     border: "line",
-    padding: 0,
-    style: {
-      border: {
-        fg: moment().isSame(date, "day") ? "red" : "white"
-      }
-    }
+    padding: 0
   });
 
   var renderHomeworkData = (subjects) => {
@@ -96,10 +86,19 @@ function CalendarBox(date) {
     return retSubjects;
   }
 
+  var updateBorder = () => {
+    var borderColor = moment().isSame(date, "day") ? "red" : "white";
+    summaryBox.style.border.fg = borderColor;
+    homeworkBox.style.border.fg = borderColor;
+  }
+
   this.update = function(subjects, summaries) {
     homeworkBox.content = renderHomeworkData(subjects);
     summaryBox.content = renderSummaryData(subjects, summaries);
+    updateBorder()
   };
+
+  updateBorder()
 }
 
 var calendar = blessed.layout({
