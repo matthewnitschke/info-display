@@ -129,7 +129,7 @@ calendar.start = function(screen) {
     screen.render()
   }
 
-  setInterval(interval, 30000);
+  setInterval(interval, 3600000);
 
   interval();
 };
