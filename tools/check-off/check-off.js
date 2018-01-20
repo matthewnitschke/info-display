@@ -27,43 +27,64 @@ function generateAssignments(subjectBox, subject) {
     var dateA = moment(a.due, "MM/DD/YYYY");
     var dateB = moment(b.due, "MM/DD/YYYY");
 
-    if (dateA.isBefore(dateB)) {
-      return -1;
+    if (dateA.isSame(dateB)){
+      return 1
     } else {
-      return 1;
-    }
+      if (dateA.isBefore(dateB)) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }    
   });
 
-  assignments.forEach(assignment => {
+  var form = blessed.form({
+    parent: subjectBox,
+    width: "100%-4",
+    height: "100%-4",
+    tags: true
+  });
+
+  assignments.forEach((assignment, i) => {
     var name = assignment.complete
       ? `{grey-fg}${assignment.name}{/grey-fg}`
       : assignment.name;
-
-    var form = blessed.form({
-      parent: subjectBox,
-      width: "100%-4",
-      height: 1,
-      tags: true
-    });
 
     var checkbox = blessed.checkbox({
       parent: form,
       tags: true,
       checked: !!assignment.complete,
       mouse: true,
-      text: name
-    })
+      text: name,
+      width: "100%-4",
+      height: 1,
+      left: 2,
+      top: i
+    });
 
-    checkbox.on('check', () => {
-      assignment.complete = true
-      saveData()
-    })
+    checkbox.on("check", () => {
+      assignment.complete = true;
+      saveData();
+    });
 
-    checkbox.on('uncheck', () => {
-      assignment.complete = false
-      saveData()
+    checkbox.on("uncheck", () => {
+      assignment.complete = false;
+      saveData();
+    });
+
+    var deleteButton = blessed.button({
+      parent: form,
+      content: '∅',
+      top: i,
+      left: 0,
+      width: 1,
+      height: 1,
+      tags: true,
+      mouse: true
     })
-    
+    deleteButton.on("press", () => {
+      deleteItemPrompt(assignment, subject)
+    })
   });
 }
 
@@ -85,9 +106,73 @@ function saveData() {
   gist.save(draw);
 }
 
-function draw(){
-  if (contentBox){
-    screen.remove(contentBox)
+function addItemPrompt(subject){
+  var addItemPrompt = blessed.question({
+    parent: screen,
+    width: "shrink",
+    height: 9,
+    left: "center",
+    top: "center",
+    border: {
+      type: "line"
+    }
+  });
+
+  var input = blessed.textbox({
+    parent: addItemPrompt,
+    height: 3,
+    top: 4,
+    mouse: true,
+    width: "100%-2",
+    label: ' Name, Due ',
+    name: 'name',
+    inputOnFocus: true,
+    value: '',
+    border: {
+      type: "line"
+    }
+  })
+
+  addItemPrompt.ask("Enter new assignment information", (e, isOkay) => {
+    if(isOkay){
+      var splitData = input.value.split(",").map(x => x.trim())
+      if (splitData.length == 2){
+        subject.assignments.push({
+          name: splitData[0],
+          due: splitData[1]
+        })
+        saveData()
+      }
+    }
+    screen.render();
+  });
+}
+
+function deleteItemPrompt(assignment, subject) {
+  var removeItemPrompt = blessed.question({
+    parent: screen,
+    width: "shrink",
+    height: "shrink",
+    left: "center",
+    top: "center",
+    border: {
+      type: "line"
+    }
+  });
+
+  removeItemPrompt.ask(`Are you sure you want to delete: ${assignment.name}?`, (e, isOkay) => {
+    if(isOkay){
+      var index = subject.assignments.indexOf(assignment);
+      delete subject.assignments[index];
+      saveData();
+    }
+    screen.render()
+  });
+}
+
+function draw() {
+  if (contentBox) {
+    screen.remove(contentBox);
   }
 
   contentBox = blessed.layout({
@@ -131,8 +216,8 @@ function draw(){
       },
       padding: {
         top: 0,
-        left: 1,
-        right: 1,
+        left: 0,
+        right: 0,
         bottom: 0
       },
       border: {
@@ -145,11 +230,36 @@ function draw(){
       }
     });
 
-    if (i == 0){
-      subjectBox.focus();
-    }
-
     generateAssignments(subjectBox, subject);
+
+    
+    var addButtonWrapper = blessed.box({
+      parent: subjectBox,
+      bottom: 0,
+      width: "100%-2",
+    });
+
+    var addButton = blessed.button({
+      parent: addButtonWrapper,
+      tags: true,
+      mouse: true,
+      width: "shrink",
+      height: "shrink",
+      right: 1,
+      padding: {
+        left: 1,
+        right: 1
+      },
+      style:{
+        bg: subject.color,
+        fg: "black"
+      },
+      content: '+',
+    })
+
+    addButton.on("press", () => {
+      addItemPrompt(subject)
+    });
   });
 
   screen.render();
