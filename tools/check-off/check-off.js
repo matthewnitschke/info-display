@@ -163,7 +163,7 @@ function deleteItemPrompt(assignment, subject) {
   removeItemPrompt.ask(`Are you sure you want to delete: ${assignment.name}?`, (e, isOkay) => {
     if(isOkay){
       var index = subject.assignments.indexOf(assignment);
-      delete subject.assignments[index];
+      subject.assignments.splice(index, 1);
       saveData();
     }
     screen.render()
