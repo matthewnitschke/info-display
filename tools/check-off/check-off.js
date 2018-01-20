@@ -27,7 +27,7 @@ function generateAssignments(subjectBox, subject) {
     var dateA = moment(a.due, "MM/DD/YYYY");
     var dateB = moment(b.due, "MM/DD/YYYY");
 
-    if (dateA.isSame(dateB)){
+    if (dateA.isSame(dateB)) {
       return 1
     } else {
       if (dateA.isBefore(dateB)) {
@@ -35,14 +35,24 @@ function generateAssignments(subjectBox, subject) {
       } else {
         return 1;
       }
-    }    
+    }
   });
 
   var form = blessed.form({
     parent: subjectBox,
     width: "100%-4",
     height: "100%-4",
-    tags: true
+    tags: true,
+    vi: true,
+    mouse: true,
+    scrollable: true,
+    keys: true,
+    alwaysScroll: true,
+    scrollbar: {
+      ch: " ",
+      inverse: true
+    },
+
   });
 
   assignments.forEach((assignment, i) => {
@@ -55,12 +65,21 @@ function generateAssignments(subjectBox, subject) {
       tags: true,
       checked: !!assignment.complete,
       mouse: true,
-      text: name,
-      width: "100%-4",
+      width: "shrink",
       height: 1,
       left: 2,
       top: i
     });
+
+    blessed.box({
+      parent: form,
+      content: name,
+      top: i,
+      tags: true,
+      height: 1,
+      width: "shrink",
+      left: 6
+    })
 
     checkbox.on("check", () => {
       assignment.complete = true;
@@ -106,7 +125,7 @@ function saveData() {
   gist.save(draw);
 }
 
-function addItemPrompt(subject){
+function addItemPrompt(subject) {
   var addItemPrompt = blessed.question({
     parent: screen,
     width: "shrink",
@@ -134,9 +153,9 @@ function addItemPrompt(subject){
   })
 
   addItemPrompt.ask("Enter new assignment information", (e, isOkay) => {
-    if(isOkay){
+    if (isOkay) {
       var splitData = input.value.split(",").map(x => x.trim())
-      if (splitData.length == 2){
+      if (splitData.length == 2) {
         subject.assignments.push({
           name: splitData[0],
           due: splitData[1]
@@ -161,7 +180,7 @@ function deleteItemPrompt(assignment, subject) {
   });
 
   removeItemPrompt.ask(`Are you sure you want to delete: ${assignment.name}?`, (e, isOkay) => {
-    if(isOkay){
+    if (isOkay) {
       var index = subject.assignments.indexOf(assignment);
       subject.assignments.splice(index, 1);
       saveData();
@@ -191,12 +210,6 @@ function draw() {
       }
     },
     vi: true,
-    scrollable: true,
-    alwaysScroll: true,
-    scrollbar: {
-      ch: " ",
-      inverse: true
-    }
   });
 
   data.forEach((subject, i) => {
@@ -206,14 +219,6 @@ function draw() {
       width: "100%",
       height: "25%-1",
       tags: true,
-      vi: true,
-      scrollable: true,
-      keys: true,
-      alwaysScroll: true,
-      scrollbar: {
-        ch: " ",
-        inverse: true
-      },
       padding: {
         top: 0,
         left: 1,
@@ -226,13 +231,20 @@ function draw() {
       style: {
         border: {
           fg: subject.color
+        },
+        scrollbar: {
+          bg: 'blue'
         }
       }
     });
 
+    if (i == 0) {
+      subjectBox.focus();
+    }
+
     generateAssignments(subjectBox, subject);
 
-    
+
     var addButtonWrapper = blessed.box({
       parent: subjectBox,
       bottom: 0,
@@ -250,7 +262,7 @@ function draw() {
         left: 1,
         right: 1
       },
-      style:{
+      style: {
         bg: subject.color,
         fg: "black"
       },
@@ -267,7 +279,7 @@ function draw() {
 
 getData();
 
-screen.key(["escape", "q", "C-c"], function(ch, key) {
+screen.key(["escape", "q", "C-c"], function (ch, key) {
   return process.exit(0);
 });
 
