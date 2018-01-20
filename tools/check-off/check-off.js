@@ -216,8 +216,8 @@ function draw() {
       },
       padding: {
         top: 0,
-        left: 0,
-        right: 0,
+        left: 1,
+        right: 1,
         bottom: 0
       },
       border: {
@@ -236,7 +236,7 @@ function draw() {
     var addButtonWrapper = blessed.box({
       parent: subjectBox,
       bottom: 0,
-      width: "100%-2",
+      width: "100%-3",
     });
 
     var addButton = blessed.button({
