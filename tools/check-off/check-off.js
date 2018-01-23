@@ -217,7 +217,7 @@ function draw() {
       parent: contentBox,
       label: `{${subject.color}-fg}${subject.subject}{/${subject.color}-fg}`,
       width: "100%",
-      height: "25%-1",
+      height: "20%-1",
       tags: true,
       padding: {
         top: 0,
