@@ -1,7 +1,6 @@
 var blessed = require("blessed");
 var moment = require("moment");
 var homeworkApi = require("../apis/homework.js");
-var summariesApi = require("../apis/classSummary.js");
 
 var config = {
   daysVisible: 21,
@@ -23,17 +22,6 @@ function CalendarBox(date) {
     content: "loading...",
     label: date.format("dddd-D"),
     border: "line"
-  });
-
-  let summaryBox = blessed.box({
-    parent: dayContainer,
-    bottom: 0,
-    left: 0,
-    tags: true,
-    content: 'loading...',
-    height: 5,
-    border: "line",
-    padding: 0
   });
 
   var renderHomeworkData = (subjects) => {
@@ -60,41 +48,13 @@ function CalendarBox(date) {
     return retText;
   }
 
-  var renderSummaryData = (subjects, summaries) => {
-    var hasSummary = (subject) => {
-      if (summaries[subject.subject]) {
-        return summaries[subject.subject].indexOf(this.date.format("MM/DD/YYYY")) > -1;
-      }
-      return false;
-    }
-  
-    var retSubjects = "";
-  
-    subjects.forEach(subject => {
-      subject.meetingDays.split(",").forEach(day => {
-        var meetingDay = moment(day, "ddd");
-  
-        if (meetingDay.format("ddd") === this.date.format("ddd")) {
-          var prefix = hasSummary(subject)
-            ? `{green-fg}\u2714{/green-fg}`
-            : `{red-fg}\u2718{/red-fg}`;
-          retSubjects += ` ${prefix} ${subject.subject}\n`;
-        }
-      });
-    });
-  
-    return retSubjects;
-  }
-
   var updateBorder = () => {
     var borderColor = moment().isSame(date, "day") ? "red" : "white";
-    summaryBox.style.border.fg = borderColor;
     homeworkBox.style.border.fg = borderColor;
   }
 
-  this.update = function(subjects, summaries) {
+  this.update = function(subjects) {
     homeworkBox.content = renderHomeworkData(subjects);
-    summaryBox.content = renderSummaryData(subjects, summaries);
     updateBorder()
   };
 
@@ -120,10 +80,9 @@ for (var i = 0; i < config.daysVisible; i++) {
 calendar.start = function(screen) {
   var interval = async () => {
     let subjects = await homeworkApi.getHomework()
-    let summaries = await summariesApi.getSummaries(subjects)
 
     days.forEach(day => {
-      day.update(subjects, summaries)
+      day.update(subjects)
     })
 
     screen.render()
