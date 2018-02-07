@@ -28,6 +28,9 @@ function CalendarBox(date) {
     var retText = "";
 
     subjects.forEach(subject => {
+      
+      var hasIncompleteAssignment = false; // only render if subject has a incomplete assignment
+
       var subjectAssignements = "";
       subject.assignments.forEach(assignment => {
         var assignmentDate = moment(assignment.due, "MM/DD/YYYY");
@@ -36,11 +39,12 @@ function CalendarBox(date) {
             subjectAssignements += ` {gray-fg}${assignment.name.trim()}{/gray-fg}\n`;
           } else {
             subjectAssignements += ` • ${assignment.name.trim()}\n`;
+            hasIncompleteAssignment = true;
           }
         }
       });
 
-      if (subjectAssignements != "") {
+      if (hasIncompleteAssignment && subjectAssignements != "") {
         retText += `{${subject.color}-fg}${subject.subject}\n${subjectAssignements}{/${subject.color}-fg}\n\n`;
       }
     });
