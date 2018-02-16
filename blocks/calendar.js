@@ -1,6 +1,8 @@
 var blessed = require("blessed");
 var moment = require("moment");
 var homeworkApi = require("../apis/homework.js");
+//var googleCalendarApi = require('../apis/googleCalendar.js')
+
 
 var config = {
   daysVisible: 21,
@@ -10,18 +12,29 @@ var config = {
 function CalendarBox(date) {
   this.date = date;
 
-  let dayContainer = blessed.box({
+  let dayContainer = blessed.layout({
     parent: calendar,
+    label: date.format("dddd-D"),
     height: "100%",
-    width: 29
+    width: 29,
+    border: "line"
   });
 
+  let eventsBox = blessed.box({
+    parent: dayContainer,
+    tags: true,
+    content: "loading...",
+    width: "100%",
+    height: "50%"
+  })
+
+   //let homeworkBox = {style: {border: {}}}
   let homeworkBox = blessed.box({
     parent: dayContainer,
     tags: true,
     content: "loading...",
-    label: date.format("dddd-D"),
-    border: "line"
+    width: "100%",
+    height: "50%"
   });
 
   var renderHomeworkData = (subjects) => {
@@ -54,7 +67,7 @@ function CalendarBox(date) {
 
   var updateBorder = () => {
     var borderColor = moment().isSame(date, "day") ? "red" : "white";
-    homeworkBox.style.border.fg = borderColor;
+    dayContainer.style.border.fg = borderColor;
   }
 
   this.update = function(subjects) {

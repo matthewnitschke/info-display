@@ -1,39 +1,34 @@
-var req = require('./apis/homework.js')
+var blessed = require('blessed')
+var moment = require('moment')
 
-var subjects = [
-    {
-      "subject": "CS Theory",
-      "color": "green",
-      "meetingDays": "Mon,Wed,Fri",
-      "summaryUrl": "/Computer-Science-Theory/summaries.txt",
-      "assignments": [{"name":"Reading - [pg. 1-10]","due":"01/12/2018"},{"name":"Reading - [pg. 10-13]","due":"01/17/2018"},{"name":"Reading - [pg. 13-16]","due":"01/19/2018"},{"name":"Reading - [pg. 17-25]","due":"01/22/2018"},{"name":"Reading - [pg. 31-40]","due":"01/24/2018"},{"name":"Reading - [pg. 40-47]","due":"01/26/2018"},{"name":"Reading - [pg. 47-54]","due":"01/29/2018"},{"name":"Reading - [pg. 54-62]","due":"01/31/2018"},{"name":"Reading - [pg. 62-76]","due":"02/02/2018"}]
-    },
-    {
-      "subject": "ESof Applications",
-      "color": "cyan",
-      "meetingDays": "Mon,Wed,Fri",
-      "summaryUrl": "",
-      "assignments": []
-    },
-    {
-      "subject": "Robotics",
-      "color": "yellow",
-      "meetingDays": "Mon,Wed,Fri",
-      "assignments": []
-    },
-    {
-      "subject": "Holograms",
-      "color": "blue",
-      "meetingDays": "Tues,Thurs",
-      "assignments": [
-        { "name": "Complete pre course info", "due": "01/15/2017" }
-      ]
-    }
-  ]
+var screen = blessed.screen({
+  warnings: true,
+  dockBorders: true
+});
 
+var calendar = blessed.box({
+  parent: screen,
+  padding: 0,
+  width: "100%",
+  height: "100%"
+})
 
-setInterval(() => {
-  req.getHomework().then(subjects => {
-    console.log(subjects[0].assignments[0]);
+var numWeeks = 4;
+var height = 25;
+for (var i = 0; i < numWeeks; i ++){
+  var week = blessed.box({
+    parent: calendar,
+    width: "100%",
+    height: `${height}%${i < numWeeks-1 ? '+1' : ''}`,
+    top: `${height*i}%`,
+    border: "line"
   })
-}, 1000)
+  
+}
+
+
+screen.key(['escape', 'q', 'C-c'], function(ch, key) {
+  return process.exit(0);
+});
+
+screen.render();
