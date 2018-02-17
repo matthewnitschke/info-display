@@ -21,5 +21,15 @@
     "clientEmail": "",
     "privateKey": "",
     "calendarId": ""
+  },
+  "foodListener": {
+    "triggerEmails": {
+      "regex": "<regex>",
+      "tags": "g"
+    },
+    "triggerWords": {
+      "regex": "<regex>",
+      "tags": "gim"
+    }
   }
 }
