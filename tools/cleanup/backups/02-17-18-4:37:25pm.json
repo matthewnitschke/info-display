@@ -1,0 +1,53 @@
+[
+	{
+		"subject": "CS Theory",
+		"color": "green",
+		"googleCalendarName": "Computer Science Theory - CSCI 338",
+		"assignments": [
+			{ "name": "Assignment 4", "due": "02/21/2018" },
+			{ "name": "Exam 2", "due": "04/09/2018" }
+		]
+	},
+	{
+		"subject": "ESof Applications",
+		"color": "cyan",
+		"googleCalendarName": "Software Envineering Applications - ESOF 423",
+		"assignments": [
+			{ "name": "Sprint 2", "due": "02/19/2018" },
+			{ "name": "Assignment 1", "due": "02/23/2018" }
+		]
+	},
+	{
+		"subject": "Robotics",
+		"color": "yellow",
+		"googleCalendarName": "Embedded Systems: Robotics - CSCI 455",
+		"assignments": []
+	},
+	{
+		"subject": "Holograms",
+		"color": "blue",
+		"assignments": [
+			{ "name": "Quiz 2", "due": "02/22/2018" },
+			{ "name": "Quiz 3", "due": "03/08/2018" },
+			{ "name": "Quiz 4", "due": "04/05/2018" },
+			{ "name": "Quiz 5", "due": "04/19/2018" }
+		]
+	},
+	{
+		"subject": "Field Work/Practicum",
+		"color": "red",
+		"assignments": [
+			{ "name": "Review Lab 6", "due": "02/22/2018" },
+			{ "name": "Weekly Report 5", "due": "02/25/2018" },
+			{ "name": "Weekly Report 6", "due": "03/04/2018" },
+			{ "name": "Review Lab 7", "due": "03/08/2018" },
+			{ "name": "Weekly Report 7", "due": "03/11/2018" },
+			{ "name": "Weekly Report 8", "due": "03/18/2018" },
+			{ "name": "Weekly Report 9", "due": "03/25/2018" },
+			{ "name": "Weekly Report 10", "due": "04/01/2018" },
+			{ "name": "Weekly Report 11", "due": "04/08/2018" },
+			{ "name": "Final Paper", "due": "04/13/2018" },
+			{ "name": "Weekly Report 4", "due": "02/18/2018", "complete": true }
+		]
+	}
+]
