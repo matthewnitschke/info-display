@@ -5,8 +5,10 @@
   "license": "MIT",
   "dependencies": {
     "blessed": "^0.1.81",
+    "blessed-contrib": "^4.8.5",
     "chalk": "^2.1.0",
     "gist.js": "^0.0.1",
+    "googleapis": "^26.0.1",
     "is-promise": "^2.1.0",
     "mail-listener2": "^0.3.1",
     "moment": "^2.19.0",

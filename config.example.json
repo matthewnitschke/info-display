@@ -16,5 +16,10 @@
   "gitlab": {
     "schoolRepoUrl": "",
     "token": ""
+  },
+  "googleCalendar": {
+    "clientEmail": "",
+    "privateKey": "",
+    "calendarId": ""
   }
 }

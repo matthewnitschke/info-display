@@ -1,39 +1,99 @@
-var req = require('./apis/homework.js')
+var blessed = require('blessed')
+var contrib = require('blessed-contrib')
+var moment = require('moment')
 
-var subjects = [
-    {
-      "subject": "CS Theory",
-      "color": "green",
-      "meetingDays": "Mon,Wed,Fri",
-      "summaryUrl": "/Computer-Science-Theory/summaries.txt",
-      "assignments": [{"name":"Reading - [pg. 1-10]","due":"01/12/2018"},{"name":"Reading - [pg. 10-13]","due":"01/17/2018"},{"name":"Reading - [pg. 13-16]","due":"01/19/2018"},{"name":"Reading - [pg. 17-25]","due":"01/22/2018"},{"name":"Reading - [pg. 31-40]","due":"01/24/2018"},{"name":"Reading - [pg. 40-47]","due":"01/26/2018"},{"name":"Reading - [pg. 47-54]","due":"01/29/2018"},{"name":"Reading - [pg. 54-62]","due":"01/31/2018"},{"name":"Reading - [pg. 62-76]","due":"02/02/2018"}]
-    },
-    {
-      "subject": "ESof Applications",
-      "color": "cyan",
-      "meetingDays": "Mon,Wed,Fri",
-      "summaryUrl": "",
-      "assignments": []
-    },
-    {
-      "subject": "Robotics",
-      "color": "yellow",
-      "meetingDays": "Mon,Wed,Fri",
-      "assignments": []
-    },
-    {
-      "subject": "Holograms",
-      "color": "blue",
-      "meetingDays": "Tues,Thurs",
-      "assignments": [
-        { "name": "Complete pre course info", "due": "01/15/2017" }
-      ]
-    }
-  ]
+var screen = blessed.screen({
+	warnings: true,
+	dockBorders: true
+})
+
+var numWeeks = 4;
+
+var grid = new contrib.grid({
+	rows: numWeeks,
+	cols: 7,
+	screen: screen
+})
 
 
-setInterval(() => {
-  req.getHomework().then(subjects => {
-    console.log(subjects[0].assignments[0]);
-  })
-}, 1000)
+function getAssignmentContent(){
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve('foo\nfoo\nfoosooe')
+		}, 1000)
+	})
+}
+
+function getEventContent(){
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve('foo\nfoooooo\nelelkeelklke')
+		}, 1000)
+	})
+}
+
+function generateDay(container, isToday) {
+	var header = blessed.box({
+		parent: container,
+		content: 'Saturday 11',
+		tags: true,
+		top: -1,
+		left: -1,
+		width: '100%',
+		height: 3,
+		border: 'line',
+	})
+
+	var assignments = blessed.box({
+		parent: container,
+		top: 2,
+		width: '100%-2'
+	})
+
+	var events = blessed.box({
+		parent: container,
+		width: '100%-2',
+	})
+
+	this.populateContent = async () => {
+		try {
+			assignments.content = await getAssignmentContent()
+			events.content = await getEventContent()
+		} catch(e){
+			throw new Error(e)
+		}
+		
+		
+		recalculateEventsTop();
+
+		screen.render()
+	}
+
+	function recalculateEventsTop(){
+		var containerHeight = container.height - 2 // height of container minus the 2 constant (literally no idea why i need this)
+		events.top = containerHeight - events.content.split('\n').length
+	}
+
+	if (isToday){
+		container.style.border.fg = 'red'
+		header.style.border.fg = 'red'
+	}
+
+	this.populateContent();
+}
+
+for (var w = 0; w < numWeeks; w++) {
+	for (var d = 0; d < 7; d++) {
+		var isToday = w == 0 && d == 0
+
+		var dayContainer = grid.set(w, d, 1, 1, blessed.box, {style:{border:{fg: 'bg'}}})
+		
+		generateDay(dayContainer, isToday)
+	}
+}
+
+screen.key(['escape', 'q', 'C-c'], function(ch, key) {
+	return process.exit(0)
+})
+
+screen.render()
