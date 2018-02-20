@@ -4,8 +4,6 @@ var moment = require('moment')
 var homeworkApi = require('./apis/homework.js')
 var googleCalendarApi = require('./apis/googleCalendar.js')
 
-var foodListenerApi = require('./apis/foodListener.js')
-
 var screen = blessed.screen({
 	warnings: true,
 	dockBorders: true
@@ -140,38 +138,6 @@ var interval = async () => {
 
 setInterval(interval, 3600000)
 interval()
-
-var foodNotify = null;
-foodListenerApi.startListening()
-foodListenerApi.onFood = () => {
-	if (!foodNotify){
-		foodNotify = blessed.box({
-			parent: screen,
-			content: 'FOOD!',
-			width: 9,
-			align: 'center',
-			height:1,
-			left: '50%-5',
-			bottom: 0,
-			style: {
-				bg: 'red',
-				fg: 'white'
-			}
-		})
-		screen.render()
-		setTimeout(() => {
-			foodNotify.destroy()
-			screen.render()
-		}, 86400000) // wait one day
-	}
-}
-	
-foodListenerApi.onNoneFound = () => {
-	if (foodNotify){
-		foodNotify.destroy()
-		screen.render()
-	}
-}
 
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
 	return process.exit(0)
