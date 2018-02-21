@@ -93,6 +93,7 @@ function Day(container, date) {
 		}
 
 		recalculateEventsTop()
+		recalculateBorder()
 	}
 
 	function recalculateEventsTop() {
@@ -100,10 +101,14 @@ function Day(container, date) {
 		events.top = containerHeight - events.content.trim().split('\n').length
 	}
 
-	if (moment().isSame(this.date, 'day')) {
-		container.style.border.fg = 'red'
-		header.style.border.fg = 'red'
+	function recalculateBorder(){
+		if (moment().isSame(this.date, 'day')) {
+			container.style.border.fg = 'red'
+			header.style.border.fg = 'red'
+		}
 	}
+
+	recalculateBorder()
 }
 
 var days = []
