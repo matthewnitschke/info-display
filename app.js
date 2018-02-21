@@ -96,12 +96,12 @@ function Day(container, date) {
 		recalculateBorder()
 	}
 
-	function recalculateEventsTop() {
+	var recalculateEventsTop = () => {
 		var containerHeight = container.height - 2 // height of container minus the 2 constant (literally no idea why i need this)
 		events.top = containerHeight - events.content.trim().split('\n').length
 	}
 
-	function recalculateBorder(){
+	var recalculateBorder = () => {
 		if (moment().isSame(this.date, 'day')) {
 			container.style.border.fg = 'red'
 			header.style.border.fg = 'red'
