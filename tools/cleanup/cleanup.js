@@ -6,7 +6,7 @@ var Gist = require('gist.js')
 var gist = Gist(config.gistID).token(config.gistToken)
 
 var settings = {
-	backupDirectory: './backups',
+	backupDirectory: __dirname + '/backups',
 	backupFileCount: 10,
 	fileNameFormat: 'MM-DD-YY-h:mm:ssa'
 }

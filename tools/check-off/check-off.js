@@ -1,5 +1,6 @@
 const blessed = require("blessed");
 const moment = require("moment");
+const { exec } = require('child_process');
 
 var config = require("../../config.json").gist;
 var Gist = require("gist.js");
@@ -58,7 +59,7 @@ function generateAssignments(subjectBox, subject) {
   assignments.forEach((assignment, i) => {
     var name = assignment.complete
       ? `{grey-fg}${assignment.name}{/grey-fg}`
-      : assignment.name;
+      : `${assignment.name} (${moment(assignment.due, "MM/DD/YYYY").format("M/D")})`;
 
     var checkbox = blessed.checkbox({
       parent: form,
@@ -274,10 +275,36 @@ function draw() {
     });
   });
 
+  var cleanupButton = blessed.button({
+    parent: screen,
+    tags: true,
+    mouse: true,
+    width: "shrink",
+    height: "shrink",
+    right: 1,
+    bottom: 0,
+    padding: {
+      left: 1,
+      right: 1
+    },
+    style: {
+      fg: "white",
+      bg: "red"
+    },
+    content: 'Cleanup'
+  })
+
+  cleanupButton.on("press", ()=> {
+    require('../cleanup/cleanup.js')
+    getData()
+  })
+
   screen.render();
 }
 
 getData();
+
+
 
 screen.key(["escape", "q", "C-c"], function (ch, key) {
   return process.exit(0);
