@@ -105,6 +105,9 @@ function Day(container, date) {
 		if (moment().isSame(this.date, 'day')) {
 			container.style.border.fg = 'red'
 			header.style.border.fg = 'red'
+		} else {
+			container.style.border.fg = ''
+			header.style.border.fg = ''
 		}
 	}
 
